@@ -424,7 +424,8 @@ var resizePizzas = function(size) {
    // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
   function determineDx (elem, size) {
     var oldWidth = elem.offsetWidth;
-    var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
+    // Replace document.querySelector with document.getElementByID
+    var windowWidth = document.getElementByID("#randomPizzas").offsetWidth;
     var oldSize = oldWidth / windowWidth;
 
     // Changes the slider value to a percent width
@@ -470,7 +471,7 @@ window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
 // Moved variable pizzasDiv outside the for loop
-  var pizzasDiv = document.getElementById("randomPizzas");
+var pizzasDiv = document.getElementById("randomPizzas");
 for (var i = 2; i < 100; i++) {
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
@@ -501,11 +502,10 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // Moves the sliding background pizzas based on scroll position
 // Change querySelectorAll (inefficient code) to getElementsByClassName and move above the function
   var items = document.getElementsByClassName('mover');
-  var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
-
+  var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
     for (var i = 0; i < items.length; i++) {
     // document.body.scrollTop is no longer supported in Chrome.
         var phase = Math.sin((scrollTop / 1250) + (i % 5));
